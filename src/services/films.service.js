@@ -23,11 +23,10 @@ const getByCategoryFilms = async (req, res) => {
   const films =  await Films.find({ category: categoryId })
     .populate("category")
     .sort({ createdAt: -1 })
-    .skip(limit * page - limit)
-    .limit(limit);
+    .skip((page - 1) * limit)
+    .limit(limit * 1)
 
-  const count = films.length
-  // console.log(filmsCount)
+  const count = await Films.find({category: categoryId}).countDocuments();
   res.status(200).json({
     success: true,
     data: films,
@@ -42,10 +41,10 @@ const getByGenreFilms = async (req, res) => {
   const limit = 12;
   const filmGenre = await Films.find({genres: genre})
     .sort({ createdAt: -1 })
-    .skip(limit * page - limit)
-    .limit(limit)
+    .skip((page - 1) * limit)
+    .limit(limit * 1)
 
-  const count = filmGenre.length;
+  const count = await Films.find({genres: genre}).countDocuments();
 
     res.status(200).json({
       success: true,
@@ -60,10 +59,10 @@ const getByCountryFilms = async (req, res) => {
   const limit = 12;
   const films = await Films.find({ country: country })
     .sort({ createdAt: -1 })
-    .skip(limit * page - limit)
-    .limit(limit);
+    .skip((page - 1) * limit)
+    .limit(limit * 1)
 
-  const count = films.length;
+  const count = await Films.find({country: country}).countDocuments();
   res.status(200).json({
     success: true,
     data: films,
@@ -77,8 +76,8 @@ const allGetFilms = async (req, res) => {
 
   const films = await Films.find()
     .sort({ createdAt: -1 })
-    .skip(limit * page - limit)
-    .limit(limit);
+    .skip((page - 1) * limit)
+    .limit(limit * 1)
 
   const count = await Films.countDocuments();
   res.status(200).json({
