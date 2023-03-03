@@ -23,7 +23,7 @@ const SliderSchema = new Schema({
         type: String,
         required: true
     }
-})
+},{timestamps: true})
 
 
 module.exports = mongoose.model('Slider', SliderSchema)
